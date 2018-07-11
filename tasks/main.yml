@@ -34,6 +34,15 @@
     NODE_PATH: "{{ npm_config_prefix }}/lib/node_modules"
     NPM_CONFIG_UNSAFE_PERM: "{{ npm_config_unsafe_perm }}"
   with_items: "{{ nodejs_npm_global_packages }}"
+  async: 7200
+  poll: 0
+
+- name: Wait for npm install to complete
+  async_status: jid={{ item.ansible_job_id }}
+  register: ec2_jobs
+  until: ec2_jobs.finished
+  retries: 300
+  with_items: ec2_instances.results
 
 - name: Install packages defined in a given package.json.
   npm:
