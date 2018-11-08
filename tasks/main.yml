@@ -69,6 +69,10 @@
     NPM_CONFIG_UNSAFE_PERM: "{{ npm_config_unsafe_perm }}"
   with_items: "{{ nodejs_npm_global_packages }}"
   when: 'nodejs_package_manager == "yarn"'
+  retries: 3
+  delay: 3
+  register: result
+  until: result.rc == 0
 
 - name: Uninstall yarn
   npm:
