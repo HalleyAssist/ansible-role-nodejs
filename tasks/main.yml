@@ -54,9 +54,7 @@
     global: yes
     state: latest
   environment:
-    NPM_CONFIG_PREFIX: "{{ npm_config_prefix }}"
-    NODE_PATH: "{{ npm_config_prefix }}/lib/node_modules"
-    NPM_CONFIG_UNSAFE_PERM: "{{ npm_config_unsafe_perm }}"
+    NPM_CONFIG_UNSAFE_PERM: "true"
   when: 'nodejs_package_manager == "yarn"'
 
 - name: Ensure npm global packages are installed (yarn).
