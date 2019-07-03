@@ -57,13 +57,11 @@
     NODE_PATH: "{{ npm_config_prefix }}/lib/node_modules"
     NPM_CONFIG_UNSAFE_PERM: "{{ npm_config_unsafe_perm }}"
   with_items: "{{ nodejs_npm_global_packages }}"
-  register: result
   when: 'nodejs_package_manager == "yarn"'
-#  retries: 3
-#  delay: 3
-#  until: result.rc == 0
-
-- debug: var=result
+  retries: 3
+  delay: 3
+  register: result
+  until: result.rc == 0
 
 - name: Uninstall yarn
   npm:
